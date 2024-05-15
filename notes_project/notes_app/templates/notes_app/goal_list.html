@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Goals{% endblock %}
+
+{% block content %}
+<h1 class="text-4xl font-bold text-blue-500 mb-4">My Goals</h1>
+<a href="{% url 'goal_create' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add New Goal</a>
+<ul class="mt-4">
+    {% for goal in goals %}
+        <li class="mb-2">
+            <a href="{% url 'goal_detail' goal.pk %}" class="text-blue-500 hover:underline">{{ goal.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

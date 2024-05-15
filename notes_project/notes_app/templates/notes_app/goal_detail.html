@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Goal Detail{% endblock %}
+
+{% block content %}
+<h1 class="text-4xl font-bold text-blue-500 mb-4">{{ goal.title }}</h1>
+<p class="text-gray-700">{{ goal.description }}</p>
+<p class="text-gray-700">Due Date: {{ goal.due_date }}</p>
+<p class="text-gray-700">Completed: {{ goal.completed }}</p>
+<a href="{% url 'goal_edit' goal.pk %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mt-4 inline-block">Edit</a>
+<form method="post" action="{% url 'goal_delete' goal.pk %}" class="inline-block">
+    {% csrf_token %}
+    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 mt-4">Delete</button>
+</form>
+{% endblock %}
