@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{% if request.COOKIES.theme == 'dark' %}dark{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +7,50 @@
     {% load static %}
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-6">
-        {% if user.is_authenticated %}
-            <p>Welcome, {{ user.username }}!</p>
-            <form method="post" action="{% url 'logout' %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700">Logout</button>
-            </form>
-        {% else %}
-            <p><a href="{% url 'login' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Login</a></p>
-        {% endif %}
+<body class="bg-gray-200 dark:bg-gray-900 dark:text-white">
+    <header class="bg-blue-600 dark:bg-gray-800 text-white shadow-md">
+        <div class="container mx-auto p-6 flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-2xl font-bold">My Notes App</a>
+            <div class="flex items-center">
+                <button onclick="toggleTheme()" class="bg-gray-200 dark:bg-gray-800 text-black dark:text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 mr-4">Toggle Theme</button>
+                {% block header %}
+                <nav class="flex space-x-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'note_list' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700">Notes</a>
+                        <a href="{% url 'goal_list' %}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700">Goals</a>
+                        <a href="{% url 'profile' %}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-yellow-700">Profile</a>
+                        <form method="post" action="{% url 'logout' %}" class="inline-block">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-700">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700">Login</a>
+                        <a href="{% url 'signup' %}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700">Sign Up</a>
+                    {% endif %}
+                </nav>
+                {% endblock %}
+            </div>
+        </div>
+    </header>
+    <main class="container mx-auto p-6">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const theme = html.classList.toggle('dark') ? 'dark' : 'light';
+            document.cookie = `theme=${theme}; path=/;`;
+        }
+
+        // Przy inicjalizacji sprawdź temat z cookies i ustaw odpowiednią klasę na html
+        document.addEventListener('DOMContentLoaded', () => {
+            const theme = document.cookie.split('; ').find(row => row.startsWith('theme=')).split('=')[1];
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        });
+    </script>
 </body>
 </html>

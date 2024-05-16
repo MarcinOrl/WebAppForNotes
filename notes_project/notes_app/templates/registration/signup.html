@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block header %}
 <!-- Pusty blok header, aby usunąć nawigację -->
@@ -8,11 +8,11 @@
 
 {% block content %}
 <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8 mt-10">
-    <h1 class="text-4xl font-bold text-blue-500 mb-6 text-center">Login</h1>
+    <h1 class="text-4xl font-bold text-blue-500 mb-6 text-center">Sign Up</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Login</button>
+        <button type="submit" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Sign Up</button>
     </form>
 </div>
 {% endblock %}

@@ -127,3 +127,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "notes_app/static",
 ]
+
+LOGIN_REDIRECT_URL = '/profile/'
+
+LOGOUT_REDIRECT_URL = '/'

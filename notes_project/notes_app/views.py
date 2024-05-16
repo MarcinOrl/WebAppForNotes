@@ -1,11 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Note, Goal
 from .forms import NoteForm, GoalForm
+from django.contrib.auth.forms import UserCreationForm
 
-@login_required
 def home(request):
     return render(request, 'notes_app/home.html')
+
+@login_required
+def profile(request):
+    notes = Note.objects.filter(user=request.user)
+    goals = Goal.objects.filter(user=request.user)
+    return render(request, 'notes_app/profile.html', {'notes': notes, 'goals': goals})
 
 @login_required
 def note_list(request):
@@ -19,7 +25,7 @@ def note_detail(request, pk):
 
 @login_required
 def note_create(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = NoteForm(request.POST)
         if form.is_valid():
             note = form.save(commit=False)
@@ -33,10 +39,12 @@ def note_create(request):
 @login_required
 def note_edit(request, pk):
     note = get_object_or_404(Note, pk=pk, user=request.user)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = NoteForm(request.POST, instance=note)
         if form.is_valid():
-            form.save()
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
             return redirect('note_list')
     else:
         form = NoteForm(instance=note)
@@ -45,10 +53,9 @@ def note_edit(request, pk):
 @login_required
 def note_delete(request, pk):
     note = get_object_or_404(Note, pk=pk, user=request.user)
-    if request.method == 'POST':
+    if request.method == "POST":
         note.delete()
         return redirect('note_list')
-    return render(request, 'notes_app/note_confirm_delete.html', {'note': note})
 
 @login_required
 def goal_list(request):
@@ -62,7 +69,7 @@ def goal_detail(request, pk):
 
 @login_required
 def goal_create(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = GoalForm(request.POST)
         if form.is_valid():
             goal = form.save(commit=False)
@@ -76,10 +83,12 @@ def goal_create(request):
 @login_required
 def goal_edit(request, pk):
     goal = get_object_or_404(Goal, pk=pk, user=request.user)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = GoalForm(request.POST, instance=goal)
         if form.is_valid():
-            form.save()
+            goal = form.save(commit=False)
+            goal.user = request.user
+            goal.save()
             return redirect('goal_list')
     else:
         form = GoalForm(instance=goal)
@@ -88,7 +97,16 @@ def goal_edit(request, pk):
 @login_required
 def goal_delete(request, pk):
     goal = get_object_or_404(Goal, pk=pk, user=request.user)
-    if request.method == 'POST':
+    if request.method == "POST":
         goal.delete()
         return redirect('goal_list')
-    return render(request, 'notes_app/goal_confirm_delete.html', {'goal': goal})
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})

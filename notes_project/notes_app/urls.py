@@ -2,11 +2,13 @@ from django.urls import path
 from .views import (
     note_list, note_detail, note_create, note_edit, note_delete,
     goal_list, goal_detail, goal_create, goal_edit, goal_delete,
-    home  # Dodaj import widoku głównego
+    home, signup, profile
 )
 
 urlpatterns = [
-    path('', home, name='home'),  # Dodaj ścieżkę dla widoku głównego
+    path('', home, name='home'),
+    path('signup/', signup, name='signup'),
+    path('profile/', profile, name='profile'),
     path('notes/', note_list, name='note_list'),
     path('notes/<int:pk>/', note_detail, name='note_detail'),
     path('notes/new/', note_create, name='note_create'),

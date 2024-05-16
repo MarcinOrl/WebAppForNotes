@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
+    <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">My Profile</h1>
+    
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">My Notes</h2>
+        <a href="{% url 'note_create' %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700">Create New Note</a>
+    </div>
+    <ul class="mb-8">
+        {% for note in notes %}
+            <li>
+                <a href="{% url 'note_detail' note.pk %}" class="text-blue-500 hover:underline">{{ note.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">My Goals</h2>
+        <a href="{% url 'goal_create' %}" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">Create New Goal</a>
+    </div>
+    <ul>
+        {% for goal in goals %}
+            <li>
+                <a href="{% url 'goal_detail' goal.pk %}" class="text-blue-500 hover:underline">{{ goal.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
