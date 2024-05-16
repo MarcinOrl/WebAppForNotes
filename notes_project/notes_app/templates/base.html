@@ -6,13 +6,34 @@
     <title>{% block title %}My Notes App{% endblock %}</title>
     {% load static %}
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .toggle-circle {
+            background-color: white;
+            z-index: 1;
+            transition: transform 0.3s ease-in-out;
+        }
+        .dark .toggle-circle {
+            background-color: #4a5568;
+        }
+        .toggle-icon {
+            z-index: 0;
+        }
+        .translate-x-full {
+            transform: translateX(2.02rem);
+        }
+    </style>
 </head>
 <body class="bg-gray-200 dark:bg-gray-900 dark:text-white">
     <header class="bg-blue-600 dark:bg-gray-800 text-white shadow-md">
         <div class="container mx-auto p-6 flex justify-between items-center">
             <a href="{% url 'home' %}" class="text-2xl font-bold">My Notes App</a>
-            <div class="flex items-center">
-                <button onclick="toggleTheme()" class="bg-gray-200 dark:bg-gray-800 text-black dark:text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 mr-4">Toggle Theme</button>
+            <div class="flex items-center space-x-4">
+                <div id="theme-toggle" onclick="toggleTheme()" class="relative inline-flex items-center h-8 w-16 bg-gray-300 dark:bg-gray-700 rounded-full cursor-pointer">
+                    <span id="toggle-circle" class="toggle-circle absolute left-1 top-1 h-6 w-6 rounded-full shadow-md transform transition-transform duration-300 ease-in-out"></span>
+                    <i id="sun-icon" class="fas fa-sun toggle-icon absolute right-1 text-yellow-500"></i>
+                    <i id="moon-icon" class="fas fa-moon toggle-icon absolute left-1 text-gray-300"></i>
+                </div>
                 {% block header %}
                 <nav class="flex space-x-4">
                     {% if user.is_authenticated %}
@@ -42,13 +63,38 @@
             const html = document.documentElement;
             const theme = html.classList.toggle('dark') ? 'dark' : 'light';
             document.cookie = `theme=${theme}; path=/;`;
+            const toggleCircle = document.getElementById('toggle-circle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            if (theme === 'dark') {
+                toggleCircle.classList.add('translate-x-full');
+                toggleCircle.classList.remove('translate-x-0');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                toggleCircle.classList.add('translate-x-0');
+                toggleCircle.classList.remove('translate-x-full');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
         }
 
         // Przy inicjalizacji sprawdź temat z cookies i ustaw odpowiednią klasę na html
         document.addEventListener('DOMContentLoaded', () => {
             const theme = document.cookie.split('; ').find(row => row.startsWith('theme=')).split('=')[1];
+            const toggleCircle = document.getElementById('toggle-circle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
+                toggleCircle.classList.add('translate-x-full');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.add('light');
+                toggleCircle.classList.add('translate-x-0');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
             }
         });
     </script>

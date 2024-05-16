@@ -5,7 +5,7 @@
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
     <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">{{ goal.title }}</h1>
-    <p class="text-gray-700 dark:text-gray-300 mb-6">{{ goal.description }}</p>
+    <p class="text-gray-700 dark:text-gray-300 mb-6">{{ goal.description|linebreaksbr }}</p>
     <p class="text-gray-700 dark:text-gray-300 mb-6">Due Date: {{ goal.due_date }}</p>
     <p class="text-gray-700 dark:text-gray-300 mb-6">Completed: {{ goal.completed }}</p>
     <a href="{% url 'goal_edit' goal.pk %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 inline-block">Edit</a>

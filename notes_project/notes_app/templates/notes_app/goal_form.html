@@ -1,15 +1,35 @@
 {% extends "base.html" %}
+{% load form_tags %}
 
 {% block title %}Create/Edit Goal{% endblock %}
 
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
     <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">{% if form.instance.pk %}Edit Goal{% else %}Create Goal{% endif %}</h1>
-    <form method="post">
+    <form method="post" class="space-y-6">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 mt-4">{% if form.instance.pk %}Update Goal{% else %}Create Goal{% endif %}</button>
-        <a href="{% url 'goal_list' %}" class="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-700 mt-4 ml-4">Cancel</a>
+        <div class="space-y-4">
+            <div>
+                <label for="{{ form.title.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Title:</label>
+                {{ form.title|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+            </div>
+            <div>
+                <label for="{{ form.description.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Description:</label>
+                {{ form.description|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+            </div>
+            <div>
+                <label for="{{ form.due_date.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Due Date:</label>
+                {{ form.due_date|add_class:"w-1/7 p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+            </div>
+            <div class="flex items-center">
+                <label for="{{ form.completed.id_for_label }}" class="block text-gray-700 dark:text-gray-300 mr-2">Completed:</label>
+                {{ form.completed|add_class:"p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+            </div>
+        </div>
+        <div class="flex justify-end space-x-4">
+            <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">{% if form.instance.pk %}Update Goal{% else %}Create Goal{% endif %}</button>
+            <a href="{% url 'goal_list' %}" class="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-700">Cancel</a>
+        </div>
     </form>
 </div>
 {% endblock %}
