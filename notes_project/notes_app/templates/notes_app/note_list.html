@@ -10,6 +10,7 @@
         {% for note in notes %}
             <li class="mb-2">
                 <a href="{% url 'note_detail' note.pk %}" class="text-blue-500 hover:underline">{{ note.title }}</a>
+                <span class="text-gray-500 text-sm">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
             </li>
         {% endfor %}
     </ul>

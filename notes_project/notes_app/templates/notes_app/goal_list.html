@@ -10,6 +10,7 @@
         {% for goal in goals %}
             <li class="mb-2">
                 <a href="{% url 'goal_detail' goal.pk %}" class="text-blue-500 hover:underline">{{ goal.title }}</a>
+                <span class="text-gray-500 text-sm">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</span>
             </li>
         {% endfor %}
     </ul>
