@@ -45,29 +45,58 @@ def note_detail(request, pk):
     note = get_object_or_404(Note, pk=pk, user=request.user)
     return render(request, 'notes_app/note_detail.html', {'note': note})
 
+# @login_required
+# def note_create(request):
+#     if request.method == "POST":
+#         form = NoteForm(request.POST)
+#         if form.is_valid():
+#             note = form.save(commit=False)
+#             note.user = request.user
+#             note.save()
+#             return redirect('note_list')
+#     else:
+#         form = NoteForm()
+#     return render(request, 'notes_app/note_form.html', {'form': form})
+
+# @login_required
+# def note_edit(request, pk):
+#     note = get_object_or_404(Note, pk=pk, user=request.user)
+#     if request.method == "POST":
+#         form = NoteForm(request.POST, instance=note)
+#         if form.is_valid():
+#             note = form.save(commit=False)
+#             note.user = request.user
+#             note.save()
+#             return redirect('note_list')
+#     else:
+#         form = NoteForm(instance=note)
+#     return render(request, 'notes_app/note_form.html', {'form': form})
+
 @login_required
 def note_create(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = NoteForm(request.POST)
         if form.is_valid():
             note = form.save(commit=False)
             note.user = request.user
             note.save()
             return redirect('note_list')
+        else:
+            print(form.errors)  # Debugging form errors
     else:
         form = NoteForm()
     return render(request, 'notes_app/note_form.html', {'form': form})
 
 @login_required
 def note_edit(request, pk):
-    note = get_object_or_404(Note, pk=pk, user=request.user)
-    if request.method == "POST":
+    note = get_object_or_404(Note, pk=pk)
+    if request.method == 'POST':
         form = NoteForm(request.POST, instance=note)
         if form.is_valid():
-            note = form.save(commit=False)
-            note.user = request.user
-            note.save()
+            form.save()
             return redirect('note_list')
+        else:
+            print(form.errors)  # Debugging form errors
     else:
         form = NoteForm(instance=note)
     return render(request, 'notes_app/note_form.html', {'form': form})

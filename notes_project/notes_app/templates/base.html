@@ -7,6 +7,7 @@
     {% load static %}
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.7/css/froala_editor.pkgd.min.css">
     <style>
         .toggle-circle {
             background-color: white;
@@ -21,6 +22,24 @@
         }
         .translate-x-full {
             transform: translateX(2.02rem);
+        }
+
+        /* Custom styles for Froala editor */
+        .fr-view ul {
+            list-style: disc outside;
+        }
+
+        .fr-view ol {
+            list-style: decimal outside;
+        }
+
+        .fr-view ul li, .fr-view ol li {
+            margin-left: 1.5em;
+        }
+
+        .fr-view ul li::before, .fr-view ol li::before {
+            display: inline-block;
+            margin-right: 0.5em;
         }
     </style>
 </head>
@@ -62,6 +81,7 @@
             <p>&copy; 2024 My Notes App. All rights reserved.</p>
         </div>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.7/js/froala_editor.pkgd.min.js"></script>
     <script>
         function toggleTheme() {
             const html = document.documentElement;

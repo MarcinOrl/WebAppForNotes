@@ -6,6 +6,9 @@ class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
         fields = ['title', 'content']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'froala-editor'}),
+        }
 
 class GoalForm(forms.ModelForm):
     class Meta:

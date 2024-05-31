@@ -6,7 +6,7 @@
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
     <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">{% if form.instance.pk %}Edit Note{% else %}Create Note{% endif %}</h1>
-    <form method="post" class="space-y-6">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="space-y-4">
             <div>
@@ -15,7 +15,7 @@
             </div>
             <div>
                 <label for="{{ form.content.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Content:</label>
-                {{ form.content|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+                {{ form.content|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300 froala-editor" }}
             </div>
         </div>
         <div class="flex justify-end space-x-4">
@@ -24,4 +24,24 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new FroalaEditor('.froala-editor', {
+            heightMin: 300,
+            toolbarSticky: true,
+            // toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'undo', 'redo'], // Wszystkie opcje z wyjątkiem insertImage i insertFile
+            pluginsEnabled: null,
+            quickInsertTags: [''],
+            theme: 'gray',
+            events: {
+                'contentChanged': function () {
+                    // Apply custom styles on content change
+                    this.$el.find('ul').css('list-style', 'disc outside');
+                    this.$el.find('ol').css('list-style', 'decimal outside');
+                }
+            }
+        });
+    });
+</script>
 {% endblock %}
