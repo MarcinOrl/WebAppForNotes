@@ -1,0 +1,28 @@
+/* Dark Theme for Froala Editor's content area and border */
+.dark .fr-box .fr-element, .dark .fr-wrapper, .dark .fr-view {
+    background: #2d3748;
+    color: #e2e8f0;
+    border-color: #4a5568;
+}
+
+/* Adjust placeholder text color for dark theme */
+.dark .fr-placeholder {
+    color: #a0aec0;
+}
+
+/* Adjust the border color to match the dark theme */
+.dark .fr-box, .dark .fr-wrapper, .dark .fr-element {
+    border-color: #4a5568 !important;
+}
+
+/* Adjust the footer color to match the dark theme */
+.dark .fr-footer {
+    background: #2d3748 !important;
+    color: #e2e8f0 !important;
+    border-top: 1px solid #4a5568 !important;
+}
+
+/* Hide the "Powered by Froala" text */
+.dark .fr-branding {
+    display: none;
+}

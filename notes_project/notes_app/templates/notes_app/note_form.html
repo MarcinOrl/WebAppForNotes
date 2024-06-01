@@ -1,7 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 {% load form_tags %}
 
 {% block title %}Create/Edit Note{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/froala_custom.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
@@ -18,7 +23,7 @@
                 {{ form.content|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300 froala-editor" }}
             </div>
         </div>
-        <div class="flex justify-end space-x-4">
+        <div class="flex justify-end space-x-4 mt-4">
             <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700">{% if form.instance.pk %}Update Note{% else %}Create Note{% endif %}</button>
             <a href="{% url 'note_list' %}" class="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-700">Cancel</a>
         </div>
@@ -30,10 +35,6 @@
         new FroalaEditor('.froala-editor', {
             heightMin: 300,
             toolbarSticky: true,
-            // toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'undo', 'redo'], // Wszystkie opcje z wyjątkiem insertImage i insertFile
-            pluginsEnabled: null,
-            quickInsertTags: [''],
-            theme: 'gray',
             events: {
                 'contentChanged': function () {
                     // Apply custom styles on content change

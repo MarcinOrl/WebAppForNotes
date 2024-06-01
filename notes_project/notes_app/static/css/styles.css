@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-size: 16px;
+@layer components {
+    .modal {
+        @apply fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50;
+    }
+    .modal-content {
+        @apply bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg overflow-y-auto max-h-screen;
+        width: 90%; /* 90% of the screen width */
+        max-width: 600px; /* Max width of 600px */
+    }
+    .modal-close {
+        @apply absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer;
+    }
 }
