@@ -5,12 +5,20 @@
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
     <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">{{ goal.title }}</h1>
-    <p class="text-gray-700 dark:text-gray-300 mb-6">{{ goal.description|linebreaksbr }}</p>
+    <p class="text-gray-700 dark:text-gray-300 mb-6">{{ goal.description|safe }}</p>
     <p class="text-gray-700 dark:text-gray-300 mb-6">Due Date: {{ goal.due_date }}</p>
     <p class="text-gray-700 dark:text-gray-300 mb-6">Completed: {{ goal.completed }}</p>
     <p class="text-gray-500 text-sm">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</p>
-    <a href="{% url 'goal_edit' goal.pk %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 inline-block">Edit</a>
-    <button onclick="toggleModal('modal-id')" class="bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-red-700 ml-4">Delete</button>
+    <div class="flex space-x-4">
+        <a href="{% url 'goal_edit' goal.pk %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700">Edit</a>
+        <form method="post" action="{% url 'goal_complete' goal.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">
+                {% if goal.completed %}Mark as Incomplete{% else %}Mark as Complete{% endif %}
+            </button>
+        </form>
+        <button onclick="toggleModal('modal-id')" class="bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-red-700">Delete</button>
+    </div>
     
     <!-- Modal -->
     <div id="modal-id" class="hidden fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-75 items-center justify-center">

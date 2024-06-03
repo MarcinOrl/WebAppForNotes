@@ -151,6 +151,13 @@ def goal_delete(request, pk):
     if request.method == "POST":
         goal.delete()
         return redirect('goal_list')
+    
+@login_required
+def goal_complete(request, pk):
+    goal = get_object_or_404(Goal, pk=pk)
+    goal.completed = not goal.completed
+    goal.save()
+    return redirect('goal_detail', pk=pk)
 
 def signup(request):
     if request.method == 'POST':

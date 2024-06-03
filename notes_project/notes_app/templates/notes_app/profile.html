@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load form_tags %}
 
-{% block title %}Profil{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
@@ -64,31 +64,38 @@
         </div>
     </div>
 
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">My Notes</h2>
-        <a href="{% url 'note_create' %}" class="bg-blue-500 text-white px-3 py-3 rounded-lg shadow-lg hover:bg-blue-700 w-40 text-center">Create New Note</a>
+    <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">My Notes</h2>
+            <a href="{% url 'note_create' %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700">Create New Note</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for note in notes %}
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg">
+                    <a href="{% url 'note_detail' note.pk %}" class="block text-xl font-semibold text-blue-500 dark:text-blue-400 hover:underline">{{ note.title }}</a>
+                    <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-    <ul class="mb-8">
-        {% for note in notes %}
-            <li>
-                <a href="{% url 'note_detail' note.pk %}" class="text-blue-500 hover:underline">{{ note.title }}</a>
-                <span class="text-gray-500 text-sm">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
-            </li>
-        {% endfor %}
-    </ul>
 
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">My Goals</h2>
-        <a href="{% url 'goal_create' %}" class="bg-green-500 text-white px-3 py-3 rounded-lg shadow-lg hover:bg-green-700 w-40 text-center">Create New Goal</a>
+    <div>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">My Goals</h2>
+            <a href="{% url 'goal_create' %}" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">Create New Goal</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for goal in goals %}
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg relative">
+                    <a href="{% url 'goal_detail' goal.pk %}" class="block text-xl font-semibold text-blue-500 dark:text-blue-400 hover:underline">{{ goal.title }}</a>
+                    <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</span>
+                    <span class="absolute top-2 right-2 text-xs text-white px-2 py-1 rounded-lg {% if goal.completed %}bg-green-500{% else %}bg-red-500{% endif %}">
+                        {% if goal.completed %}Completed{% else %}Incomplete{% endif %}
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-    <ul>
-        {% for goal in goals %}
-            <li>
-                <a href="{% url 'goal_detail' goal.pk %}" class="text-blue-500 hover:underline">{{ goal.title }}</a>
-                <span class="text-gray-500 text-sm">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</span>
-            </li>
-        {% endfor %}
-    </ul>
 </div>
 
 <script>
