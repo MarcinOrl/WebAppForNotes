@@ -11,6 +11,11 @@
             <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg">
                 <a href="{% url 'note_detail' note.pk %}" class="block text-xl font-semibold text-blue-500 dark:text-blue-400 hover:underline">{{ note.title }}</a>
                 <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
+                <div class="mt-2">
+                    {% for tag in note.tags.all %}
+                        <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
             </div>
         {% endfor %}
     </div>

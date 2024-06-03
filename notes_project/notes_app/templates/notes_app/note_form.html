@@ -22,6 +22,10 @@
                 <label for="{{ form.content.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Content:</label>
                 {{ form.content|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300 froala-editor" }}
             </div>
+            <div>
+                <label for="{{ form.tags.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Tags:</label>
+                {{ form.tags|add_class:"select2 w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+            </div>
         </div>
         <div class="flex justify-end space-x-4 mt-4">
             <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700">{% if form.instance.pk %}Update Note{% else %}Create Note{% endif %}</button>

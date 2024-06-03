@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Note, Goal
+from .models import Note, Goal, Tag
 from .forms import NoteForm, GoalForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.forms import UserCreationForm
 
@@ -45,33 +45,6 @@ def note_detail(request, pk):
     note = get_object_or_404(Note, pk=pk, user=request.user)
     return render(request, 'notes_app/note_detail.html', {'note': note})
 
-# @login_required
-# def note_create(request):
-#     if request.method == "POST":
-#         form = NoteForm(request.POST)
-#         if form.is_valid():
-#             note = form.save(commit=False)
-#             note.user = request.user
-#             note.save()
-#             return redirect('note_list')
-#     else:
-#         form = NoteForm()
-#     return render(request, 'notes_app/note_form.html', {'form': form})
-
-# @login_required
-# def note_edit(request, pk):
-#     note = get_object_or_404(Note, pk=pk, user=request.user)
-#     if request.method == "POST":
-#         form = NoteForm(request.POST, instance=note)
-#         if form.is_valid():
-#             note = form.save(commit=False)
-#             note.user = request.user
-#             note.save()
-#             return redirect('note_list')
-#     else:
-#         form = NoteForm(instance=note)
-#     return render(request, 'notes_app/note_form.html', {'form': form})
-
 @login_required
 def note_create(request):
     if request.method == 'POST':
@@ -80,6 +53,7 @@ def note_create(request):
             note = form.save(commit=False)
             note.user = request.user
             note.save()
+            form.save_m2m()  # To save tags
             return redirect('note_list')
         else:
             print(form.errors)  # Debugging form errors
@@ -89,11 +63,14 @@ def note_create(request):
 
 @login_required
 def note_edit(request, pk):
-    note = get_object_or_404(Note, pk=pk)
+    note = get_object_or_404(Note, pk=pk, user=request.user)
     if request.method == 'POST':
         form = NoteForm(request.POST, instance=note)
         if form.is_valid():
-            form.save()
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
+            form.save_m2m()  # To save tags
             return redirect('note_list')
         else:
             print(form.errors)  # Debugging form errors
@@ -126,6 +103,7 @@ def goal_create(request):
             goal = form.save(commit=False)
             goal.user = request.user
             goal.save()
+            form.save_m2m()  # To save tags
             return redirect('goal_list')
     else:
         form = GoalForm()
@@ -140,6 +118,7 @@ def goal_edit(request, pk):
             goal = form.save(commit=False)
             goal.user = request.user
             goal.save()
+            form.save_m2m()  # To save tags
             return redirect('goal_list')
     else:
         form = GoalForm(instance=goal)
@@ -154,7 +133,7 @@ def goal_delete(request, pk):
     
 @login_required
 def goal_complete(request, pk):
-    goal = get_object_or_404(Goal, pk=pk)
+    goal = get_object_or_404(Goal, pk=pk, user=request.user)
     goal.completed = not goal.completed
     goal.save()
     return redirect('goal_detail', pk=pk)

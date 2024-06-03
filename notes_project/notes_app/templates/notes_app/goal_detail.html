@@ -8,6 +8,11 @@
     <p class="text-gray-700 dark:text-gray-300 mb-6">{{ goal.description|safe }}</p>
     <p class="text-gray-700 dark:text-gray-300 mb-6">Due Date: {{ goal.due_date }}</p>
     <p class="text-gray-700 dark:text-gray-300 mb-6">Completed: {{ goal.completed }}</p>
+    <p class="text-gray-500 text-sm mb-6">Tags: 
+        {% for tag in goal.tags.all %}
+            <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
+        {% endfor %}
+    </p>
     <p class="text-gray-500 text-sm">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</p>
     <div class="flex space-x-4">
         <a href="{% url 'goal_edit' goal.pk %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700">Edit</a>

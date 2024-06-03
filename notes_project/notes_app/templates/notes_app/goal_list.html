@@ -11,6 +11,11 @@
             <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg relative">
                 <a href="{% url 'goal_detail' goal.pk %}" class="block text-xl font-semibold text-blue-500 dark:text-blue-400 hover:underline">{{ goal.title }}</a>
                 <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</span>
+                <div class="mt-2">
+                    {% for tag in goal.tags.all %}
+                        <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
                 <span class="absolute top-2 right-2 text-xs text-white px-2 py-1 rounded-lg {% if goal.completed %}bg-green-500{% else %}bg-red-500{% endif %}">
                     {% if goal.completed %}Completed{% else %}Incomplete{% endif %}
                 </span>

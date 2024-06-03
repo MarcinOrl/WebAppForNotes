@@ -6,6 +6,11 @@
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
     <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">{{ note.title }}</h1>
     <div class="text-gray-700 dark:text-gray-300 mb-6">{{ note.content|safe }}</div>
+    <p class="text-gray-500 text-sm mb-6">Tags: 
+        {% for tag in note.tags.all %}
+            <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
+        {% endfor %}
+    </p>
     <p class="text-gray-500 text-sm">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</p>
     <div class="flex space-x-4">
         <a href="{% url 'note_edit' note.pk %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700">Edit</a>
