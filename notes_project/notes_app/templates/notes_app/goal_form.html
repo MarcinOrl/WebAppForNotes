@@ -6,6 +6,27 @@
 
 {% block head %}
 <link href="{% static 'css/froala_custom.css' %}" rel="stylesheet">
+<style>
+    .tag-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .tag-button {
+        background-color: #4A90E2;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .tag-button.selected {
+        background-color: #2C6FB7;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -54,6 +75,15 @@
                     this.$el.find('ol').css('list-style', 'decimal outside');
                 }
             }
+        });
+
+        document.querySelectorAll('.tag-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const tagId = button.getAttribute('data-tag-id');
+                const checkbox = document.getElementById('tag-' + tagId);
+                checkbox.checked = !checkbox.checked;
+                button.classList.toggle('selected');
+            });
         });
     });
 </script>

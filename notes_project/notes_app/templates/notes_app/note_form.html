@@ -6,6 +6,27 @@
 
 {% block head %}
 <link href="{% static 'css/froala_custom.css' %}" rel="stylesheet">
+<style>
+    .tag-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .tag-button {
+        background-color: #4A90E2;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .tag-button.selected {
+        background-color: #2C6FB7;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -24,7 +45,14 @@
             </div>
             <div>
                 <label for="{{ form.tags.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Tags:</label>
-                {{ form.tags|add_class:"select2 w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+                <div class="tag-buttons">
+                    {% for tag in form.tags.field.queryset %}
+                        <button type="button" class="tag-button" data-tag-id="{{ tag.id }}">
+                            {{ tag.name }}
+                        </button>
+                        <input type="checkbox" id="tag-{{ tag.id }}" name="tags" value="{{ tag.id }}" class="hidden">
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="flex justify-end space-x-4 mt-4">
@@ -46,6 +74,15 @@
                     this.$el.find('ol').css('list-style', 'decimal outside');
                 }
             }
+        });
+
+        document.querySelectorAll('.tag-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const tagId = button.getAttribute('data-tag-id');
+                const checkbox = document.getElementById('tag-' + tagId);
+                checkbox.checked = !checkbox.checked;
+                button.classList.toggle('selected');
+            });
         });
     });
 </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Notes App{% endblock %}</title>
+    <title>{% block title %}Notes & Goals{% endblock %}</title>
     {% load static %}
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -47,7 +47,7 @@
 <body class="bg-gray-200 dark:bg-gray-900 dark:text-white">
     <header class="bg-blue-600 dark:bg-gray-800 text-white shadow-md">
         <div class="container mx-auto p-6 flex justify-between items-center">
-            <a href="{% url 'home' %}" class="text-2xl font-bold">My Notes App</a>
+            <a href="{% url 'home' %}" class="text-2xl font-bold">Notes & Goals</a>
             <div class="flex items-center space-x-4">
                 <div id="theme-toggle" onclick="toggleTheme()" class="relative inline-flex items-center h-8 w-16 bg-gray-300 dark:bg-gray-700 rounded-full cursor-pointer">
                     <span id="toggle-circle" class="toggle-circle absolute left-1 top-1 h-6 w-6 rounded-full shadow-md transform transition-transform duration-300 ease-in-out"></span>
@@ -79,7 +79,7 @@
     </main>
     <footer class="bg-gray-800 text-white p-4 mt-8">
         <div class="container mx-auto text-center">
-            <p>&copy; 2024 My Notes App. All rights reserved.</p>
+            <p>&copy; 2024 Notes & Goals. All rights reserved.</p>
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.7/js/froala_editor.pkgd.min.js"></script>
