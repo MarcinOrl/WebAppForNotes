@@ -29,12 +29,12 @@ Web application for creating and managing your notes.
 
 11. Change directory
     
-   `cd notes_project`
+      `cd notes_project`
    
 13. Migrate the DB
 
-   `python manage.py migrate`
+      `python manage.py migrate`
    
 14. Run django server
 
-   `python manage.py runserver`
+      `python manage.py runserver`
