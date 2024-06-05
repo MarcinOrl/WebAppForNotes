@@ -4,20 +4,30 @@ Web application for creating and managing your notes.
 ## Installation
 
 1. Clone repository
+   
    `git clone https://github.com/MarcinOrl/WebAppForNotes.git`
-2. Change directory
+3. Change directory
+   
    `cd WebAppForNotes`
-3. Create virtual environment
+5. Create virtual environment
+   
    `python -m venv venv`
+   
    `venv\Scripts\activate (Windows)`
+   
    `source venv/bin/activate (macOS/Linux)`
-5. Install requirements
+7. Install requirements
+   
    `pip install -r requirements.txt`
-6. Install npm dependencies
+9. Install npm dependencies
+    
    `npm install`
-7. Change directory
+11. Change directory
+    
    `cd notes_project`
-8. Migrate the DB
+13. Migrate the DB
+
    `python manage.py migrate`
-9. Run django server
+14. Run django server
+
    `python manage.py runserver`
