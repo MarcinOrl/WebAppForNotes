@@ -40,6 +40,10 @@
                 {{ form.title|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
             </div>
             <div>
+                <label for="{{ form.short_description.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Short Description:</label>
+                {{ form.short_description|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+            </div>
+            <div>
                 <label for="{{ form.description.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Description:</label>
                 {{ form.description|add_class:"w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300 froala-editor" }}
             </div>
@@ -53,7 +57,14 @@
             </div>
             <div>
                 <label for="{{ form.tags.id_for_label }}" class="block text-gray-700 dark:text-gray-300">Tags:</label>
-                {{ form.tags|add_class:"select2 w-full p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" }}
+                <div class="tag-buttons">
+                    {% for tag in form.tags.field.queryset %}
+                        <button type="button" class="tag-button" data-tag-id="{{ tag.id }}">
+                            {{ tag.name }}
+                        </button>
+                        <input type="checkbox" id="tag-{{ tag.id }}" name="tags" value="{{ tag.id }}" class="hidden">
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="flex justify-end space-x-4 mt-4">

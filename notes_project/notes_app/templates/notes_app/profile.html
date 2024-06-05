@@ -3,6 +3,17 @@
 
 {% block title %}Profile{% endblock %}
 
+{% block head %}
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
     <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">My Profile</h1>
@@ -71,15 +82,20 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for note in notes %}
-                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg">
-                    <a href="{% url 'note_detail' note.pk %}" class="block text-xl font-semibold text-blue-500 dark:text-blue-400 hover:underline">{{ note.title }}</a>
-                    <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
-                    <div class="mt-2">
-                        {% for tag in note.tags.all %}
-                            <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
-                        {% endfor %}
+                <a href="{% url 'note_detail' note.pk %}" class="card block bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg">
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-500 dark:text-blue-400">{{ note.title }}</h3>
+                        {% if note.description %}
+                            <p class="text-gray-700 dark:text-gray-300 mb-2 truncate">{{ note.description }}</p>
+                        {% endif %}
+                        <div class="mt-2">
+                            {% for tag in note.tags.all %}
+                                <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
                     </div>
-                </div>
+                </a>
             {% endfor %}
         </div>
     </div>
@@ -91,18 +107,23 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for goal in goals %}
-                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg relative">
-                    <a href="{% url 'goal_detail' goal.pk %}" class="block text-xl font-semibold text-blue-500 dark:text-blue-400 hover:underline">{{ goal.title }}</a>
-                    <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</span>
-                    <div class="mt-2">
-                        {% for tag in goal.tags.all %}
-                            <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
-                        {% endfor %}
+                <a href="{% url 'goal_detail' goal.pk %}" class="card block bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg relative">
+                    <div>
+                        <h3 class="text-xl font-semibold text-black dark:text-white">{{ goal.title }}</h3>
+                        {% if goal.short_description %}
+                            <p class="text-gray-700 dark:text-gray-300 mb-2 truncate">{{ goal.short_description }}</p>
+                        {% endif %}
+                        <div class="mt-2">
+                            {% for tag in goal.tags.all %}
+                                <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ goal.created_at|date:"d-m-Y H:i" }}</span>
+                        <span class="absolute top-2 right-2 text-xs text-white px-2 py-1 rounded-lg {% if goal.completed %}bg-green-500{% else %}bg-red-500{% endif %}">
+                            {% if goal.completed %}Completed{% else %}Incomplete{% endif %}
+                        </span>
                     </div>
-                    <span class="absolute top-2 right-2 text-xs text-white px-2 py-1 rounded-lg {% if goal.completed %}bg-green-500{% else %}bg-red-500{% endif %}">
-                        {% if goal.completed %}Completed{% else %}Incomplete{% endif %}
-                    </span>
-                </div>
+                </a>
             {% endfor %}
         </div>
     </div>

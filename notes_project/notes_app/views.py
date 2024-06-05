@@ -42,7 +42,12 @@ def profile(request):
 
 @login_required
 def note_list(request):
-    notes = Note.objects.filter(user=request.user)
+    sort_by = request.GET.get("sort", "created_at_desc")
+    if sort_by == "created_at_asc":
+        notes = Note.objects.filter(user=request.user).order_by("created_at")
+    else:
+        notes = Note.objects.filter(user=request.user).order_by("-created_at")
+
     return render(request, "notes_app/note_list.html", {"notes": notes})
 
 
@@ -97,7 +102,12 @@ def note_delete(request, pk):
 
 @login_required
 def goal_list(request):
-    goals = Goal.objects.filter(user=request.user)
+    sort_by = request.GET.get("sort", "created_at_desc")
+    if sort_by == "created_at_asc":
+        goals = Goal.objects.filter(user=request.user).order_by("created_at")
+    else:
+        goals = Goal.objects.filter(user=request.user).order_by("-created_at")
+
     return render(request, "notes_app/goal_list.html", {"goals": goals})
 
 

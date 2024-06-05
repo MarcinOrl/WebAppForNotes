@@ -2,22 +2,59 @@
 
 {% block title %}Notes{% endblock %}
 
+{% block head %}
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="bg-white dark:bg-gray-800 p-10 shadow-lg rounded-lg mt-10">
-    <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6">My Notes</h1>
-    <a href="{% url 'note_create' %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 mb-4 inline-block">Add New Note</a>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400">My Notes</h1>
+        <div class="flex items-center space-x-4">
+            <a href="{% url 'note_create' %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 inline-block">Add New Note</a>
+            <div>
+                <label for="sort" class="text-gray-700 dark:text-gray-300">Sort by:</label>
+                <select id="sort" class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-300" onchange="sortNotes()">
+                    <option value="created_at_desc" {% if request.GET.sort == "created_at_desc" %}selected{% endif %}>Newest First</option>
+                    <option value="created_at_asc" {% if request.GET.sort == "created_at_asc" %}selected{% endif %}>Oldest First</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         {% for note in notes %}
-            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg">
-                <a href="{% url 'note_detail' note.pk %}" class="block text-xl font-semibold text-blue-500 dark:text-blue-400 hover:underline">{{ note.title }}</a>
-                <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
-                <div class="mt-2">
-                    {% for tag in note.tags.all %}
-                        <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
-                    {% endfor %}
+            <a href="{% url 'note_detail' note.pk %}" class="card block bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg">
+                <div>
+                    <h3 class="text-xl font-semibold text-blue-500 dark:text-blue-400 mb-2 truncate" title="{{ note.title }}">{{ note.title }}</h3>
+                    {% if note.description %}
+                        <p class="text-gray-700 dark:text-gray-300 mb-2 truncate">{{ note.description }}</p>
+                    {% endif %}
+                    <div class="mt-2">
+                        {% for tag in note.tags.all %}
+                            <span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <span class="block text-gray-500 dark:text-gray-400 text-sm mt-2">Created on: {{ note.created_at|date:"d-m-Y H:i" }}</span>
                 </div>
-            </div>
+            </a>
         {% endfor %}
     </div>
 </div>
+
+<script>
+function sortNotes() {
+    const sortValue = document.getElementById('sort').value;
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('sort', sortValue);
+    window.location.href = currentUrl.href;
+}
+</script>
 {% endblock %}
