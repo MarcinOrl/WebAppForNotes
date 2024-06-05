@@ -26,7 +26,7 @@ Web application for creating and managing your notes.
 9. Install npm dependencies
     
    `npm install`
-   
+
 11. Change directory
     
    `cd notes_project`
